@@ -5,8 +5,11 @@ import org.example.productcatalogservice_feb2025.dtos.ProductDto;
 import org.example.productcatalogservice_feb2025.models.Product;
 import org.example.productcatalogservice_feb2025.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,11 +20,20 @@ public class ProductController {
 
     @GetMapping("/products")
     public List<ProductDto> getAllProducts() {
-        return null;
+        List<ProductDto> productDtos = new ArrayList<>();
+        List<Product> products = productService.getAllProducts();
+        for(Product product : products) {
+           productDtos.add(from(product));
+        }
+
+        return productDtos;
     }
 
     @GetMapping("/products/{id}")
     public ProductDto getProductDetails(@PathVariable Long id) {
+        if(id < 0) {
+            throw new IllegalArgumentException("Please pass productId greater than 0");
+        }
         Product product = productService.getProductById(id);
         if(product == null) return null;
         return from(product);
@@ -42,6 +54,8 @@ public class ProductController {
     public Boolean deleteProduct(@PathVariable Long id) {
         return null;
     }
+
+
 
     private ProductDto from (Product product) {
         ProductDto productDto = new ProductDto();

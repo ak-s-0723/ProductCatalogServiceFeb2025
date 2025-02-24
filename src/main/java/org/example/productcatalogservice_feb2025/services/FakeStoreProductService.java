@@ -59,9 +59,19 @@ public class FakeStoreProductService implements IProductService {
         return products;
     }
 
+    public Product replaceProduct(Product product,Long id) {
+     FakeStoreProductDto  input = from(product);
+     FakeStoreProductDto output =
+             requestForEntity("http://fakestoreapi.com/products/{id}",HttpMethod.PUT,input,
+                     FakeStoreProductDto.class,id).getBody();
+     return from(output);
+    }
 
 
-    public <T> ResponseEntity<T> requestForEntity(String url, HttpMethod httpMethod, @Nullable Object request, Class<T> responseType, Object... uriVariables) throws RestClientException {
+
+    public <T> ResponseEntity<T> requestForEntity(String url, HttpMethod httpMethod, @Nullable Object request,
+                                                  Class<T> responseType, Object... uriVariables)
+            throws RestClientException {
         RestTemplate restTemplate =  restTemplateBuilder.build();
         RequestCallback requestCallback = restTemplate.httpEntityCallback(request, responseType);
         ResponseExtractor<ResponseEntity<T>> responseExtractor = restTemplate.responseEntityExtractor(responseType);
@@ -69,7 +79,10 @@ public class FakeStoreProductService implements IProductService {
     }
 
 
-
+    private FakeStoreProductDto from(Product product) {
+        //ToDo Please add implementation here
+        return new FakeStoreProductDto();
+    }
     private Product from(FakeStoreProductDto fakeStoreProductDto) {
         Product product = new Product();
         product.setId(fakeStoreProductDto.getId());
