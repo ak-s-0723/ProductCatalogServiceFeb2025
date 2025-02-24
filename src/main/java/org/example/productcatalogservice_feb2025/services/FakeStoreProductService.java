@@ -5,10 +5,18 @@ import org.example.productcatalogservice_feb2025.models.Category;
 import org.example.productcatalogservice_feb2025.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RequestCallback;
+import org.springframework.web.client.ResponseExtractor;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FakeStoreProductService implements IProductService {
@@ -35,6 +43,32 @@ public class FakeStoreProductService implements IProductService {
 
         return null;
     }
+
+    @Override
+    public List<Product> getAllProducts() {
+        RestTemplate restTemplate =  restTemplateBuilder.build();
+        ResponseEntity<FakeStoreProductDto[]>  response = restTemplate.getForEntity("http://fakestoreapi.com/products/",
+                        FakeStoreProductDto[].class);
+
+        List<Product> products = new ArrayList<Product>();
+        for(FakeStoreProductDto fakeStoreProductDto : response.getBody()) {
+            Product product = from(fakeStoreProductDto);
+            products.add(product);
+        }
+
+        return products;
+    }
+
+
+
+    public <T> ResponseEntity<T> requestForEntity(String url, HttpMethod httpMethod, @Nullable Object request, Class<T> responseType, Object... uriVariables) throws RestClientException {
+        RestTemplate restTemplate =  restTemplateBuilder.build();
+        RequestCallback requestCallback = restTemplate.httpEntityCallback(request, responseType);
+        ResponseExtractor<ResponseEntity<T>> responseExtractor = restTemplate.responseEntityExtractor(responseType);
+        return restTemplate.execute(url, httpMethod, requestCallback, responseExtractor, uriVariables);
+    }
+
+
 
     private Product from(FakeStoreProductDto fakeStoreProductDto) {
         Product product = new Product();
