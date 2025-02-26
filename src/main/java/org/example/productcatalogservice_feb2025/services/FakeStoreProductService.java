@@ -81,8 +81,11 @@ public class FakeStoreProductService implements IProductService {
 
     private FakeStoreProductDto from(Product product) {
         //ToDo Please add implementation here
-        return new FakeStoreProductDto();
+        FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
+        fakeStoreProductDto.setImage(product.getImageUrl());
+        return fakeStoreProductDto;
     }
+
     private Product from(FakeStoreProductDto fakeStoreProductDto) {
         Product product = new Product();
         product.setId(fakeStoreProductDto.getId());
