@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("fkps")
 public class FakeStoreProductService implements IProductService {
 
     @Autowired
@@ -67,6 +67,17 @@ public class FakeStoreProductService implements IProductService {
      return from(output);
     }
 
+    //ToDo  by students
+    @Override
+    public Boolean deleteProduct(Long id) {
+        return null;
+    }
+
+    //ToDo  by students
+    @Override
+    public Product createProduct(Product product) {
+        return null;
+    }
 
 
     public <T> ResponseEntity<T> requestForEntity(String url, HttpMethod httpMethod, @Nullable Object request,

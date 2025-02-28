@@ -6,6 +6,8 @@ import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Setter
 @Getter
 @Entity
@@ -18,4 +20,9 @@ public class Product extends BaseModel {
     Category category;
     Boolean isPrime;
 
+    public Product() {
+        this.setCreatedAt(new Date());
+        this.setLastUpdatedAt(new Date());
+        this.setState(State.ACTIVE);
+    }
 }

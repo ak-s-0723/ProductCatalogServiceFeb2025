@@ -2,9 +2,11 @@ package org.example.productcatalogservice_feb2025.controllers;
 
 import org.example.productcatalogservice_feb2025.dtos.CategoryDto;
 import org.example.productcatalogservice_feb2025.dtos.ProductDto;
+import org.example.productcatalogservice_feb2025.models.Category;
 import org.example.productcatalogservice_feb2025.models.Product;
 import org.example.productcatalogservice_feb2025.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +15,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/products")
 public class ProductController {
 
     @Autowired
+    @Qualifier("sps")
     private IProductService productService;
 
-    @GetMapping("/products")
+    @Autowired
+    @Qualifier("fkps")
+    private IProductService productService2;
+
+    @GetMapping
     public List<ProductDto> getAllProducts() {
         List<ProductDto> productDtos = new ArrayList<>();
         List<Product> products = productService.getAllProducts();
@@ -29,7 +37,7 @@ public class ProductController {
         return productDtos;
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/{id}")
     public ProductDto getProductDetails(@PathVariable Long id) {
         if(id < 0) {
             throw new IllegalArgumentException("Please pass productId greater than 0");
@@ -39,18 +47,20 @@ public class ProductController {
         return from(product);
     }
 
-    @PostMapping("/products")
+    @PostMapping
     public ProductDto createProduct(@RequestBody ProductDto productDto) {
-        return null;
+        Product input = from(productDto);
+        Product response = productService.createProduct(input);
+        return from(response);
     }
 
-    @PutMapping("/products/{id}")
+    @PutMapping("/{id}")
     public ProductDto replaceProduct(@PathVariable Long id,
                               @RequestBody ProductDto productDto) {
         return null;
     }
 
-    @DeleteMapping("/products/{id}")
+    @DeleteMapping("/{id}")
     public Boolean deleteProduct(@PathVariable Long id) {
         return null;
     }
@@ -77,6 +87,17 @@ public class ProductController {
     private Product from(ProductDto productDto) {
         Product product = new Product();
         product.setName(productDto.getName());
+        product.setId(productDto.getId());
+        product.setDescription(productDto.getDescription());
+        product.setImageUrl(productDto.getImageUrl());
+        product.setPrice(productDto.getPrice());
+        if(productDto.getCategory() != null) {
+            Category category = new Category();
+            category.setName(productDto.getCategory().getName());
+            category.setId(productDto.getCategory().getId());
+            category.setDescription(productDto.getCategory().getDescription());
+            product.setCategory(category);
+        }
         return  product;
     }
 }
