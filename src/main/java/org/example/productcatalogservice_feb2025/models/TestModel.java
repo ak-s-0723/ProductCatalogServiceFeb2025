@@ -10,7 +10,7 @@ import java.util.UUID;
 @Entity
 public class TestModel {
     @Id
-//    @GeneratedValue(strategy = GenerationType.UUID)
-//    UUID key;
-    Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    UUID id;
+    //Long id;
 }
