@@ -8,9 +8,6 @@ import jakarta.persistence.Id;
 import java.util.UUID;
 
 @Entity
-public class TestModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    UUID id;
-    //Long id;
+public class TestModel extends BaseModel {
+    private Integer numField;
 }
