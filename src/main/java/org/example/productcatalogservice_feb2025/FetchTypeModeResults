@@ -1,0 +1,39 @@
+FetchType        FetchMode          Result
+
+ LAZY             SELECT             Asked For Products - Queries - 2 select
+                                     Not Asked For Products - Queries - 1 select
+
+
+ EAGER            SELECT             Asked For Products - Queries - 2 select
+                                     Not Asked For Products - Queries - 2 select
+
+
+
+ LAZY             JOIN               Asked For Products - Queries - 1 join
+                                     Not Asked For Products - Queries - 1 join
+
+
+
+ EAGER            JOIN               Asked For Products - Queries - 1 join
+                                     Not Asked For Products - Queries - 1 join
+
+
+
+ LAZY             SUBSELECT           Asked For Products - Queries - 2 select
+                                      Not Asked For Products - Queries - 1 select
+
+
+
+ EAGER            SUBSELECT          Asked For Products - Queries - 2 select
+                                     Not Asked For Products - Queries - 2 select
+
+
+ Summary ->
+
+ FetchMode JOIN is dominant over all cases. It doesn't honor any fetchtype
+
+ In case of FetchMode Select and Subselect, FetchType is honored, that means we will not get child
+ entity in case of lazy loading.
+
+ In  case of FetchMode Select and Subselect , 2 select queries from product and category table, even though join would
+ have ran.
