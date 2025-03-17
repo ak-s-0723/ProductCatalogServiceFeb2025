@@ -19,12 +19,12 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    @Qualifier("sps")
+    //@Qualifier("sps")
     private IProductService productService;
 
-    @Autowired
-    @Qualifier("fkps")
-    private IProductService productService2;
+//    @Autowired
+//    @Qualifier("fkps")
+//    private IProductService productService2;
 
     @GetMapping
     public List<ProductDto> getAllProducts() {
@@ -41,7 +41,10 @@ public class ProductController {
     public ProductDto getProductDetails(@PathVariable Long id) {
         if(id < 0) {
             throw new IllegalArgumentException("Please pass productId greater than 0");
+        }else if(id == 0) {
+            throw new IllegalArgumentException("Please pass positive productId");
         }
+        //id++;
         Product product = productService.getProductById(id);
         if(product == null) return null;
         return from(product);
