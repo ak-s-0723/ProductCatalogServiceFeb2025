@@ -9,12 +9,13 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Setter
 @Getter
 @Entity
-public class Category extends BaseModel {
+public class Category extends BaseModel implements Serializable {
     String name;
     String description;
     @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
