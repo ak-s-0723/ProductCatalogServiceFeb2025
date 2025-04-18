@@ -1,6 +1,7 @@
 package org.example.productcatalogservice_feb2025.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -20,6 +21,7 @@ public class Product extends BaseModel implements Serializable {
     String imageUrl;
     Double price;
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
     Category category;
     Boolean isPrime;
 

@@ -20,11 +20,12 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 @Service("fkps")
-@Primary
+//@Primary
 public class FakeStoreProductService implements IProductService {
 
     @Autowired
@@ -32,9 +33,12 @@ public class FakeStoreProductService implements IProductService {
 
     @Override
     public Product getProductById(Long id) {
-        RestTemplate restTemplate =  restTemplateBuilder.build();
+
+
+       RestTemplate restTemplate =  restTemplateBuilder.build();
+
         ResponseEntity<FakeStoreProductDto> fakeStoreProductDto =
-                restTemplate.getForEntity("http://fakestoreapi.com/products/{id}",
+                restTemplate.getForEntity("https://fakestoreapi.com/products/{id}",
                         FakeStoreProductDto.class,id);
 
         if(fakeStoreProductDto.getBody() != null &&
@@ -47,7 +51,7 @@ public class FakeStoreProductService implements IProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        RestTemplate restTemplate =  restTemplateBuilder.build();
+       RestTemplate restTemplate =  restTemplateBuilder.build();
         ResponseEntity<FakeStoreProductDto[]>  response = restTemplate.getForEntity("http://fakestoreapi.com/products/",
                         FakeStoreProductDto[].class);
 
