@@ -84,6 +84,11 @@ public class FakeStoreProductService implements IProductService {
         return null;
     }
 
+    @Override
+    public Product getProductBasedOnUserRole(Long productId, Long userId) {
+        return null;
+    }
+
 
     public <T> ResponseEntity<T> requestForEntity(String url, HttpMethod httpMethod, @Nullable Object request,
                                                   Class<T> responseType, Object... uriVariables)

@@ -14,4 +14,6 @@ public interface IProductService {
     Boolean deleteProduct(Long id);
 
     Product createProduct(Product product);
+
+    Product getProductBasedOnUserRole(Long productId, Long userId);
 }

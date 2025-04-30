@@ -37,6 +37,19 @@ public class ProductController {
         return productDtos;
     }
 
+    @GetMapping("/{productId}/{userId}")
+    public ProductDto getProductDetailsBasedOnUserRole(@PathVariable
+                                                           Long productId,
+                                                       @PathVariable Long
+                                                               userId) {
+        Product product = productService.getProductBasedOnUserRole(productId,userId);
+        if(product != null) {
+            return from(product);
+        }
+
+        return null;
+    }
+
     @GetMapping("/{id}")
     public ProductDto getProductDetails(@PathVariable Long id) {
         if(id < 0) {

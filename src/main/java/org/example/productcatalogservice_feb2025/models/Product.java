@@ -25,6 +25,8 @@ public class Product extends BaseModel implements Serializable {
     Category category;
     Boolean isPrime;
 
+    Scope scope;
+
     public Product() {
         this.setCreatedAt(new Date());
         this.setLastUpdatedAt(new Date());

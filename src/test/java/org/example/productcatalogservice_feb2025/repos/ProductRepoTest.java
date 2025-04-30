@@ -3,6 +3,7 @@ package org.example.productcatalogservice_feb2025.repos;
 import jakarta.transaction.Transactional;
 import org.example.productcatalogservice_feb2025.models.Category;
 import org.example.productcatalogservice_feb2025.models.Product;
+import org.example.productcatalogservice_feb2025.models.Scope;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,26 +20,18 @@ class ProductRepoTest {
 
 
     @Test
-    public void insertIntoRDS() {
+    public void insertDummyDataIntoDB() {
         Product product = new Product();
-        product.setId(1L);
-        product.setName("Iphone15");
-        product.setPrice(1000000D);
+        product.setId(93L);
+        product.setName("Melody Toffee");
+        product.setPrice(1D);
+        product.setScope(Scope.LISTED);
         Category category = new Category();
-        category.setId(2L);
-        category.setName("Phones");
+        category.setId(200L);
+        category.setName("Toffees");
         product.setCategory(category);
-        productRepo.save(product);
 
-        Product product2 = new Product();
-        product2.setId(5L);
-        product2.setName("Macbook Air");
-        product2.setPrice(999999D);
-        Category category2 = new Category();
-        category2.setId(12L);
-        category2.setName("Laptops");
-        product2.setCategory(category);
-        productRepo.save(product2);
+        productRepo.save(product);
     }
 
 
